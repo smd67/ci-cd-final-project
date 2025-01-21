@@ -4,14 +4,17 @@ echo " Setting up CI/CD Final Project Environment"
 echo "**************************************************"
 
 echo "*** Installing Python 3.9 and Virtual Environment"
-sudo apt-get update
-
-sudo DEBIAN_FRONTEND=noninteractive apt-get install -y python3.9 python3.9-venv
-
+brew update
+brew install pyenv
+brew install xz
+pyenv install 3.9
+echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc
+echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bashrc
+echo 'eval "$(pyenv init -)"' >> ~/.bashrc
+source ~/.bashrc
 
 echo "*** Making Python 3.9 the default..."
-sudo update-alternatives --remove-all python3
-sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.9 1
+pyenv local 3.9
 
 echo "*** Checking the Python version..."
 python3 --version
@@ -26,12 +29,12 @@ echo 'export PS1="\[\e]0;\u:\W\a\]${debian_chroot:+($debian_chroot)}\[\033[01;32
 echo "source ~/venv/bin/activate" >> ~/.bashrc
 
 echo "*** Installing Selenium and Chrome for BDD"
-sudo apt-get update
-sudo DEBIAN_FRONTEND=noninteractive apt-get install -y sqlite3 ca-certificates chromium-driver python3-selenium
+brew update
+brew install sqlite3 ca-certificates chromium-driver python3-selenium
 
 echo "*** Installing Python depenencies..."
-source ~/venv/bin/activate && python3 -m pip install --upgrade pip wheel
-source ~/venv/bin/activate && pip install -r requirements.txt
+python3 -m pip install --upgrade pip wheel
+pip install -r requirements.txt
 
 echo "**************************************************"
 echo " CI/CD Final Project Environment Setup Complete"
