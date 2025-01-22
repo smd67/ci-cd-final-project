@@ -1,4 +1,4 @@
-name: Basic Workflow
+name: BasicWorkflow
 on:
   push:
     branches: ["main"]
